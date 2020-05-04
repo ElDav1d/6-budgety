@@ -22,7 +22,9 @@ body {
     height: 100vh;
     font-weight: 400;
 }
-
+.flex-right {
+    display: flex;
+}
 .right { float: right; }
 .red { color: #FF5049 !important; }
 .red-focus:focus { border: 1px solid #FF5049 !important; }
@@ -53,6 +55,10 @@ body {
     text-align: center;
     margin-bottom: 10px;
     font-weight: 300;
+}
+
+.budget__updated {
+    text-align: center;
 }
 
 .budget__value {
@@ -203,6 +209,8 @@ h2 {
 .expenses__title { color: #FF5049; }
 
 .item {
+    display: flex;
+    justify-content: space-between;
     padding: 13px;
     border-bottom: 1px solid #e7e7e7;
 }
@@ -210,9 +218,11 @@ h2 {
 .item:first-child { border-top: 1px solid #e7e7e7; }
 .item:nth-child(even) { background-color: #f7f7f7; }
 
-.item__description {
-    float: left;
+.item__date {
+    margin-right: 15px;
 }
+
+
 
 .item__value {
     float: left;
@@ -264,6 +274,7 @@ h2 {
 .item:hover .item__delete--btn { display: block; }
 .item:hover .item__value { transform: translateX(-20px); }
 .item:hover .item__percentage { transform: translateX(-20px); }
+.item:hover .item__date { transform: translateX(-20px); }
 
 
 .unpaid {
