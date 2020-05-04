@@ -1,17 +1,19 @@
 // BUDGET CONTROLLER
 var budgetController = (function () {
 
-    var Expense = function (id, description, value) {
+    var Expense = function (id, description, value, date) {
         this.id = id;
         this.description = description;
         this.value = value;
+        this.date = date;
         this.percentage = -1;
     };
 
-    var Income = function (id, description, value) {
+    var Income = function (id, description, value, date) {
         this.id = id;
         this.description = description;
         this.value = value;
+        this.date = date;
     };
 
     Expense.prototype.calcPercentage = function (totalIncome) {
@@ -50,7 +52,7 @@ var budgetController = (function () {
     }
 
     return {
-        addItem: function (type, des, val) {
+        addItem: function (type, des, val, date) {
             var newItem, ID;
 
             // ID = last ID + 1
@@ -62,9 +64,9 @@ var budgetController = (function () {
 
             // Create new item based on 'inc' or 'exp' type
             if (type === 'exp') {
-                newItem = new Expense(ID, des, val);
+                newItem = new Expense(ID, des, val, date);
             } else if (type === 'inc') {
-                newItem = new Income(ID, des, val);
+                newItem = new Income(ID, des, val, date);
             }
 
             // Push it into our data structure
@@ -201,7 +203,8 @@ var UIController = (function () {
             return {
                 type: document.querySelector(DOMstrings.inputType).value, // Will be either inc (income) or exp (expense)
                 description: document.querySelector(DOMstrings.inputDescription).value,
-                value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
+                value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
+                date: new Date()
             }
         },
 
@@ -367,7 +370,7 @@ var controller = (function (budgetCtrl, UICtrl) {
         input = UICtrl.getinput();
         if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
             // 2. Add the item to the budget controller
-            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value, input.date);
 
             // 3. Add the item to the UI
             UICtrl.addListItem(newItem, input.type);
