@@ -220,6 +220,7 @@ h2 {
 
 .item__date {
     margin-right: 15px;
+    transition: transform 0.3s;
 }
 
 
