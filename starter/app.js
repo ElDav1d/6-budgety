@@ -192,6 +192,22 @@ var UIController = (function () {
         return sign + ' ' + int + '.' + dec;
     };
 
+    var formatItemDateArray = function (array) {
+        return array.map(function (item) { return item < 10 ? '0' + item : item })
+    };
+
+    var formatItemDate = function (date) {
+        var dateArray = [(date.getMonth() + 1), date.getUTCDate(), date.getFullYear()];
+
+        return formatItemDateArray(dateArray).join('/');
+    }
+
+    var formatItemTime = function (date) {
+        var timeArray = [date.getHours(), date.getMinutes(), date.getSeconds()];
+
+        return formatItemDateArray(timeArray).join(':');
+    };
+
     var nodeListForEach = function (list, callback) {
         for (var i = 0; i < list.length; i++) {
             callback(list[i], i);
@@ -213,15 +229,17 @@ var UIController = (function () {
             // Create HTML string with placeholder text
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer;
-                html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                html = '<div class="item" id="inc-%id%"><div class="item__description">%description%</div><div class="flex-right"><div class="item__date"><small>%date%</small><small>%time%</small></div><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             } else if (type === 'exp') {
                 element = DOMstrings.expensesContainer;
-                html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                html = '<div class="item" id="exp-%id%"><div class="item__description">%description%</div><div class="flex-right"><div class="item__date"><small>%date%</small><small>%time%</small></div><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             }
 
             // Replace placeholder text with some actual data
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
+            newHtml = newHtml.replace('%date%', formatItemDate(obj.date));
+            newHtml = newHtml.replace('%time%', formatItemTime(obj.date));
             newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
             // Insert the HTML into the DOM
