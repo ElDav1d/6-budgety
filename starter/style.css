@@ -223,17 +223,20 @@ h2 {
     transition: transform 0.3s;
 }
 
-
-
 .item__value {
-    float: left;
+    display: flex;
     transition: transform 0.3s;
 }
 
+.item__value-number {
+    text-align: right;
+    width: 95px;
+}
+.item__value-number:not(:last-child) {
+    margin-right: 5px;
+}
+
 .item__percentage {
-    float: left;
-    margin-left: 20px;
-    transition: transform 0.3s;
     font-size: 11px;
     background-color: #FFDAD9;
     padding: 3px;
@@ -274,7 +277,6 @@ h2 {
 
 .item:hover .item__delete--btn { display: block; }
 .item:hover .item__value { transform: translateX(-20px); }
-.item:hover .item__percentage { transform: translateX(-20px); }
 .item:hover .item__date { transform: translateX(-20px); }
 
 
@@ -282,7 +284,6 @@ h2 {
     background-color: #FFDAD9 !important;
     cursor: pointer;
     color: #FF5049;
-
 }
 
 .unpaid .item__percentage { box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1); }

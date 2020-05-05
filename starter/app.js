@@ -229,10 +229,12 @@ var UIController = (function () {
             // Create HTML string with placeholder text
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer;
-                html = '<div class="item" id="inc-%id%"><div class="item__description">%description%</div><div class="flex-right"><div class="item__date"><small>%date%</small><small>%time%</small></div><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                html = '<div class="item" id="inc-%id%"><div class="item__description">%description%</div><div class="flex-right"><div class="item__date"><small>%date%</small><small>%time%</small></div><div class="item__value"><span class="item__value-number">%value%</span></div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+
+
             } else if (type === 'exp') {
                 element = DOMstrings.expensesContainer;
-                html = '<div class="item" id="exp-%id%"><div class="item__description">%description%</div><div class="flex-right"><div class="item__date"><small>%date%</small><small>%time%</small></div><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+                html = '<div class="item" id="exp-%id%"><div class="item__description">%description%</div><div class="flex-right"><div class="item__date"><small>%date%</small><small>%time%</small></div><div class="item__value"><span class="item__value-number">%value%</span><span class="item__percentage">21%</span></div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
             }
 
             // Replace placeholder text with some actual data
