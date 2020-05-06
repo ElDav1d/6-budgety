@@ -200,7 +200,7 @@ var UIController = (function () {
         var dateArray = [(date.getMonth() + 1), date.getUTCDate(), date.getFullYear()];
 
         return formatItemDateArray(dateArray).join('/');
-    }
+    };
 
     var formatItemTime = function (date) {
         var timeArray = [date.getHours(), date.getMinutes(), date.getSeconds()];
