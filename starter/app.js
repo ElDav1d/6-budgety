@@ -69,6 +69,10 @@ var budgetController = (function () {
             }
         },
 
+        getTimeStamp: function () {
+            return data.timeStamp;
+        },
+
         addItem: function (type, des, val, date) {
             var newItem, ID;
 
@@ -225,6 +229,25 @@ var UIController = (function () {
         return formatItemDateArray(timeArray).join(':');
     };
 
+    var formatMonth = function (date) {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return months[date.getMonth()];
+    };
+
+    var formatTimeStamp = function (date) {
+        var month, day, year, time;
+
+        month = formatMonth(date);
+
+        day = date.getUTCDate();
+
+        year = date.getFullYear()
+
+        time = formatItemTime(date);
+
+        return 'formatTimeStamp: ' + month + ' the ' + day + 'th' + ' of ' + year + ' at ' + time;
+    };
+
     var nodeListForEach = function (list, callback) {
         for (var i = 0; i < list.length; i++) {
             callback(list[i], i);
@@ -321,12 +344,11 @@ var UIController = (function () {
         },
 
         displayMonth: function () {
-            var now, month, months, year;
+            var now, month, year;
 
             now = new Date();
 
-            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            month = now.getMonth();
+            month = formatMonth(now);
 
             year = now.getFullYear();
 
@@ -424,6 +446,8 @@ var controller = (function (budgetCtrl, UICtrl) {
             //.7 Save the timestamp of the item
             budgetCtrl.setTimeStamp();
 
+            //.8 Obtain timestamp from data structure
+            timeStamp = budgetCtrl.getTimeStamp();
         }
     };
 
@@ -456,6 +480,9 @@ var controller = (function (budgetCtrl, UICtrl) {
 
             // 5. Retrieve the timestamp of the previous item added
             budgetCtrl.setTimeStamp();
+
+            //.8 Obtain timestamp from data structure
+            timeStamp = budgetCtrl.getTimeStamp();
         }
     };
 
