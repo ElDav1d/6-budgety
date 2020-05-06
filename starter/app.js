@@ -48,10 +48,27 @@ var budgetController = (function () {
             inc: 0
         },
         budget: 0,
-        percentage: -1 // not zero but minus one => has value but "doesn't exist"
+        percentage: -1,
+        timeStamp: -1 // not zero but minus one => has value but "doesn't exist",
     }
 
     return {
+        setTimeStamp: function () {
+            var lastIncome, lastExpense, lastIncomeDate, lastExpenseDate;
+
+            lastIncome = data.allItems.inc[data.allItems.inc.length - 1];
+            lastExpense = data.allItems.exp[data.allItems.exp.length - 1];
+
+            lastIncome ? lastIncomeDate = lastIncome.date : lastIncomeDate = -1;
+            lastExpense ? lastExpenseDate = lastExpense.date : lastExpenseDate = -1;
+
+            if (lastIncomeDate > lastExpenseDate) {
+                data.timeStamp = lastIncomeDate;
+            } else {
+                data.timeStamp = lastExpenseDate;
+            }
+        },
+
         addItem: function (type, des, val, date) {
             var newItem, ID;
 
@@ -384,7 +401,7 @@ var controller = (function (budgetCtrl, UICtrl) {
     };
 
     var ctrlAddItem = function () {
-        var input, newItem;
+        var input, newItem, timeStamp;
 
         // 1. Get the filled input data
         input = UICtrl.getinput();
@@ -403,11 +420,15 @@ var controller = (function (budgetCtrl, UICtrl) {
 
             // 6. Calculate and update percentages
             updatePercentages();
+
+            //.7 Save the timestamp of the item
+            budgetCtrl.setTimeStamp();
+
         }
     };
 
     var ctrlDeleteItem = function (event) {
-        var itemID, splitID, type, ID;
+        var itemID, splitID, type, ID, timeStamp;
         // the event.target is a reference to the object that dispatched the event
         // it identifies the HTML element on which the event occurred.
         // the event is the 'click'
@@ -432,6 +453,9 @@ var controller = (function (budgetCtrl, UICtrl) {
 
             // 4. Calculate and update percentages
             updatePercentages();
+
+            // 5. Retrieve the timestamp of the previous item added
+            budgetCtrl.setTimeStamp();
         }
     };
 
