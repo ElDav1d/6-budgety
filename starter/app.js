@@ -183,7 +183,8 @@ var UIController = (function () {
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
         expensesPercentageLabel: '.item__percentage',
-        dateLabel: '.budget__title--month'
+        dateLabel: '.budget__title--month',
+        updateLabel: '.budget__updated'
     };
 
     var formatNumber = function (num, type) {
@@ -245,7 +246,7 @@ var UIController = (function () {
 
         time = formatItemTime(date);
 
-        return 'formatTimeStamp: ' + month + ' the ' + day + 'th' + ' of ' + year + ' at ' + time;
+        return 'LAST UPDATE: ' + month + ' the ' + day + 'th' + ' of ' + year + ' at ' + time;
     };
 
     var nodeListForEach = function (list, callback) {
@@ -352,7 +353,19 @@ var UIController = (function () {
 
             year = now.getFullYear();
 
-            document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+            document.querySelector(DOMstrings.dateLabel).textContent = month + ' ' + year;
+        },
+
+        displayLastItemDate: function (timeStamp) {
+            var html;
+
+            if (timeStamp < 0) {
+                html = '<span>No income or expenses records</span>';
+            } else {
+                html = '<span>' + formatTimeStamp(timeStamp) + '</span>';
+            }
+
+            document.querySelector(DOMstrings.updateLabel).innerHTML = html;
         },
 
         changedType: function () {
@@ -448,6 +461,9 @@ var controller = (function (budgetCtrl, UICtrl) {
 
             //.8 Obtain timestamp from data structure
             timeStamp = budgetCtrl.getTimeStamp();
+
+            // 9. Display date of last item addition
+            UICtrl.displayLastItemDate(timeStamp);
         }
     };
 
@@ -483,13 +499,16 @@ var controller = (function (budgetCtrl, UICtrl) {
 
             //.8 Obtain timestamp from data structure
             timeStamp = budgetCtrl.getTimeStamp();
+
+            // 7. Display date of last item addition
+            UICtrl.displayLastItemDate(timeStamp);
         }
     };
 
     return {
         init: function () {
-            console.log('Started');
             UICtrl.displayMonth();
+            UICtrl.displayLastItemDate(timeStamp = -1);
             UICtrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
